@@ -104,6 +104,8 @@ flashingAPI = (req, res) => {
   FlashingRequestRecordId = 0;
   console.log(req.body);
   ProductTypeId = req.body.ProductTypes;
+  mac = null;
+  log = null;
   ProductTypes.findAll({
     where: {
       id: ProductTypeId,
@@ -133,7 +135,7 @@ flashingAPI = (req, res) => {
             if (error) {
               // console.log(`error: ${error.message}`);
               //status = "failed";
-              log = error.message;
+              log += error.message;
               //log = stderr;
               console.log(`_____________log:_______________\n ${log}`);
               n = log.includes("** Programming Finished **");
@@ -153,7 +155,7 @@ flashingAPI = (req, res) => {
             }
             if (stderr) {
               // console.log(`stderr: ${stderr}`);
-              log = stderr;
+              log += stderr;
               //  console.log(`_____________log:_______________\n ${log}`);
               n = log.includes("** Programming Finished **");
 
@@ -176,10 +178,11 @@ flashingAPI = (req, res) => {
               }
             }
             if (stdout) {
-             // console.log(`log stdout :\n ${stdout}`);
+              // console.log(`log stdout :\n ${stdout}`);
+              log += stdout;
               const words = stdout.split(" ");
               mac = words[1];
-            //  console.log("mac adress : ", mac);
+              //  console.log("mac adress : ", mac);
             }
             product[0]
               .createFlashingRequest({
@@ -190,6 +193,8 @@ flashingAPI = (req, res) => {
                 FlashingRequestRecordId = FlashReq.dataValues.id;
                 FlashReq.createControllerLog({
                   status,
+                  rootcause,
+                  log,
                   Time: sequelize.literal("CURRENT_TIMESTAMP"),
                 });
               });

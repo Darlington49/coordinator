@@ -23,6 +23,8 @@
         <th>ID</th>
         <th>FlashingRequestId</th>
         <th>status</th>
+        <th>Rootcause</th>
+        <th>log</th>
         <th>createdAt</th>
       </tr>
       <% items.forEach(function(item) { %>
@@ -31,7 +33,10 @@
             <td> <%= item.dataValues.id %> </td>
             <td> <%= item.dataValues.FlashingRequestId %> </td>
             <td> <%= item.dataValues.status %> </td>
+            <td> <%= item.dataValues.rootcause %> </td>
+            <td> <%= item.dataValues.log %> </td>
             <td> <%= item.dataValues.createdAt %> </td>
+            
             
         </tr>
       <% }); %>
