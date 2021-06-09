@@ -1,0 +1,42 @@
+</head>
+<style>
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
+    
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+    background-color: #dddddd;
+    }
+    </style>
+<body>
+    <%- include('../includes/nav.ejs'); -%>
+      <table>
+      <tr>
+        <th>ID</th>
+        <th>FlashingRequestId</th>
+        <th>status</th>
+        <th>createdAt</th>
+      </tr>
+      <% items.forEach(function(item) { %>
+        <!-- <strong><%= item.itemuctName %></strong> -->
+        <tr>
+            <td> <%= item.dataValues.id %> </td>
+            <td> <%= item.dataValues.FlashingRequestId %> </td>
+            <td> <%= item.dataValues.status %> </td>
+            <td> <%= item.dataValues.createdAt %> </td>
+            
+        </tr>
+      <% }); %>
+    </table>
+    
+
+
+

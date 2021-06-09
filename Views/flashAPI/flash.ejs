@@ -1,0 +1,15 @@
+</head>
+
+<body>
+    <%- include('../includes/nav.ejs'); -%>
+    <!-- define wich API -->
+    <form method="POST" action="/flashingAPI/flash">
+        <label for="ProductTypes">Choose a ProductType:</label>
+        <select id="ProductTypes" name="ProductTypes">
+            <% prods.forEach(function(prod) { %>
+                <!-- <strong><%= prod.ProductName %></strong> -->
+                <option value=<%= prod.id %> > <%= prod.ProductName %> </option>
+            <% }); %>
+        </select>
+        <input type="submit">
+      </form>

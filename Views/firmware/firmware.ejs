@@ -1,0 +1,41 @@
+</head>
+<style>
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
+    
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+    background-color: #dddddd;
+    }
+    </style>
+<body>
+    <%- include('../includes/nav.ejs'); -%>
+      <table>
+      <tr>
+        <th>ID</th>
+        <th>RepositoryURL</th>
+        <th>Version</th>
+        <th>Compiled_Date</th>
+        <th>createdAt</th>
+      </tr>
+      <% firmwares.forEach(function(firmware) { %>
+        <!-- <strong><%= firmware.firmwareuctName %></strong> -->
+        <tr>
+            <td> <%= firmware.dataValues.id %> </td>
+            <td> <%= firmware.dataValues.RepositoryURL %> </td>
+            <td> <%= firmware.dataValues.Version %> </td>
+            <td> <%= firmware.dataValues.Compiled_Date %> </td>
+            <td> <%= firmware.dataValues.createdAt %> </td>
+            
+        </tr>
+      <% }); %>
+    </table>
+

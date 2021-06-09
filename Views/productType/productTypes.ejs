@@ -1,0 +1,50 @@
+</head>
+<style>
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
+    
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+    background-color: #dddddd;
+    }
+    </style>
+<body>
+  <%- include('../includes/nav.ejs'); -%>
+    <!-- define wich API -->
+    <form method="POST" action="/flashingAPI/flash">
+        <label for="ProductTypes">Choose a ProductType:</label>
+        <select id="ProductTypes" name="ProductTypes">
+            <% prods.forEach(function(prod) { %>
+                <!-- <strong><%= prod.ProductName %></strong> -->
+                <option value=<%= prod.id %> > <%= prod.ProductName %> </option>
+            <% }); %>
+        </select>
+        <input type="submit">
+      </form>
+      <table>
+      <tr>
+        <th>ID</th>
+        <th>ProductName</th>
+        <th>FirmwareId</th>
+        <th>FilesystemId</th>
+        <th>createdAt</th>
+      </tr>
+      <% prods.forEach(function(prod) { %>
+        <!-- <strong><%= prod.ProductName %></strong> -->
+        <tr>
+            <td> <%= prod.dataValues.id %> </td>
+            <td> <%= prod.dataValues.ProductName %> </td>
+            <td> <%= prod.dataValues.FirmwareId %> </td>
+            <td> <%= prod.dataValues.FilesystemId %> </td>
+            <td> <%= prod.dataValues.createdAt %> </td>
+        </tr>
+      <% }); %>
+    </table>

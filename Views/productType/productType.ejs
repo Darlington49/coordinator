@@ -1,0 +1,39 @@
+</head>
+    <style>
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        }
+        
+        td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+        background-color: #dddddd;
+        }
+        </style>
+<body>
+  <%- include('../includes/nav.ejs'); -%>
+
+     <table>
+        <tr>
+          <th>ID</th>
+          <th>ProductName</th>
+          <th>FirmwareId</th>
+          <th>FilesystemId</th>
+          <th>createdAt</th>
+        </tr>
+
+        <tr>
+            <td> <%= product[0].dataValues.id %> </td>
+            <td> <%= product[0].dataValues.ProductName %> </td>
+            <td> <%= product[0].dataValues.FirmwareId %> </td>
+            <td> <%= product[0].dataValues.FilesystemId %> </td>
+            <td> <%= product[0].dataValues.createdAt %> </td>
+        </tr>
+      </table>
+
