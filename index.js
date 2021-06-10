@@ -26,8 +26,8 @@ var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.set("views", "./Views");
 app.set("view engine", "ejs");
-app.set("views", "views");
 
 ProductTypes.belongsTo(Firmware);
 ProductTypes.belongsTo(Filesystem);
