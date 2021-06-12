@@ -21,14 +21,17 @@ getAddFilesSystem = (req, res, next) => {
 };
 
 const postAddFilesSystem = (req, res, next) => {
+ // console.log("=====>", req.files);
   FilesSystem.create({
     Compiled_Date: req.body.Compiled_Date,
     Version: req.body.Version,
     RepositoryURL: req.body.RepositoryURL,
+    Name: req.body.RepositoryURL,
+    Link: req.files[0].path,
   })
     .then((result) => {
       console.log("Created filesystem");
-        res.redirect("/filesystem");
+      res.redirect("/filesystem");
     })
     .catch((err) => {
       console.log(err);

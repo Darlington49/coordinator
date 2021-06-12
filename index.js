@@ -115,8 +115,8 @@ app.post("/submit-form", (req, res) => {
 });
 
 sequelize
-  // .sync({ force: true })
-  .sync(/*{ force: true }*/) //{force : true}
+  .sync({ force: true })
+  // .sync(/*{ force: true }*/) //{force : true}
   .then((result) => {
     app.listen(3000);
     // console.log("srv");

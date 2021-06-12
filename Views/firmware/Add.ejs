@@ -9,9 +9,14 @@
   </head>
   <body>
     <%- include('../includes/nav.ejs'); -%>
-    <!-- <h1>Hi from Add get  filesystem <%= filesystem[0].dataValues.RepositoryURL %> </h1> -->
 
-    <form class="product-form" method="POST" action="/firmware/add">
+
+    <form class="product-form" method="POST" action="/firmware/add" enctype="multipart/form-data">
+      <div class="form-control">
+        <label for="Name">Name</label>
+        <input type="text" name="Name" />
+      </div>
+      
       <div class="form-control">
         <label for="Compiled_Date">Compiled_Date</label>
         <input type="text" name="Compiled_Date" />
@@ -22,8 +27,10 @@
         <input type="text" name="Version" />
       </div>
 
+      <input type="file" name="avatar" multiple/>
+
       <div class="form-control">
-        <label for="RepositoryURL">ProductTypes Name</label>
+        <label for="RepositoryURL">RepositoryURL</label>
         <input type="text" name="RepositoryURL" />
       </div>
 

@@ -1,18 +1,89 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="/css/nav_style.css">
+    <link rel="stylesheet" href="/css/nav_style.css" />
   </head>
   <body>
-    <ul>
+    <!-- <ul>
       <li><a class="active" href="/">Home</a></li>
 
-      <li><a href="/firmware">firmware</a></li>
-      <li><a href="/productTypes/">productType</a></li>
+      <li><a href="/firmware">Firmware</a></li>
+      <li><a href="/filesystem">Filesystem</a></li>
+      <li><a href="/productTypes/">ProductType</a></li>
       <li><a href="/FlashingRequest">FlashingRequest</a></li>
       <li><a href="/ControllerLog">ControllerLog</a></li>
       <li><a href="/flashingAPI">Flashing</a></li>
+      <div class="dropdown">
+        <button class="dropbtn">
+          Dropdown
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="#">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+      </div>
       <li style="float: right"><a href="#about">About</a></li>
-    </ul>
+    </ul> -->
+
+    <div class="topnav" id="myTopnav">
+
+      <div class="dropdown">
+        <button class="dropbtn">
+          Firmware
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/firmware">ALL</a>
+          <a href="/firmware/ADD">ADD</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropbtn">
+          Filesystem
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/filesystem">ALL</a>
+          <a href="/filesystem/ADD">ADD</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropbtn">
+          ProductTypes
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/productTypes">ALL</a>
+          <a href="/productTypes/ADD">ADD</a>
+        </div>
+      </div>
+
+      <a href="/FlashingRequest">FlashingRequest</a>
+      <a href="/ControllerLog">ControllerLog</a>
+      <a href="/flashingAPI">Flashing</a>
+
+      <a href="#about">About</a>
+      <a
+        href="javascript:void(0);"
+        style="font-size: 15px"
+        class="icon"
+        onclick="myFunction()"
+        >&#9776;</a
+      >
+    </div>
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+    </script>
   </body>
 </html>

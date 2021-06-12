@@ -9,9 +9,13 @@
   </head>
   <body>
     <%- include('../includes/nav.ejs'); -%>
-  
 
-    <form class="product-form" method="POST" action="/filesystem/add">
+    <form class="product-form" method="POST" action="/filesystem/add" enctype="multipart/form-data">
+      <div class="form-control">
+        <label for="Name">Name</label>
+        <input type="text" name="Name" />
+      </div>
+
       <div class="form-control">
         <label for="Compiled_Date">Compiled_Date</label>
         <input type="text" name="Compiled_Date" />
@@ -21,7 +25,7 @@
         <label for="Version">Version</label>
         <input type="text" name="Version" />
       </div>
-
+      <input type="file" name="avatar" multiple />
       <div class="form-control">
         <label for="RepositoryURL">RepositoryURL</label>
         <input type="text" name="RepositoryURL" />

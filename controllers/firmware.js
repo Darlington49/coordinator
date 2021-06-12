@@ -1,6 +1,7 @@
 const Firmware = require("../models/Firmware");
 
 const firmwareGet = (req, res) => {
+  
   Firmware.findAll()
     .then((firmwares) => {
       console.log(firmwares);
@@ -21,14 +22,17 @@ getAddfirmware = (req, res, next) => {
 };
 
 const postAddfirmware = (req, res, next) => {
+  console.log("=====>", req.files);
   Firmware.create({
     Compiled_Date: req.body.Compiled_Date,
     Version: req.body.Version,
     RepositoryURL: req.body.RepositoryURL,
+    Name: req.body.RepositoryURL,
+    Link: req.files[0].path,
   })
     .then((result) => {
       console.log("Created firmware");
-        res.redirect("/firmware");
+       res.redirect("/firmware");
     })
     .catch((err) => {
       console.log(err);
