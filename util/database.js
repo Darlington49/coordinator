@@ -5,7 +5,7 @@ var sequelize = new Sequelize(
 );*/
 const sequelize = new Sequelize('Coordinator', 'postgres', 'postgres', {
   // host: 'postgres',  // name of the container
-  host: '192.168.205.4',  // name of the container
+  host: '192.168.254.4',  // name of the container
   dialect: 'postgres' 
 });
 module.exports = sequelize;

@@ -1,7 +1,10 @@
 const express = require("express");
-const firmwareController = require('../controllers/firmware');
+const FilesSystemController = require('../controllers/Filesystem');
 
 const router = express.Router();
 
-router.get("/",firmwareController.firmwareGet);
+router.get("/",FilesSystemController.FilesSystemGet);
+router.get("/add",FilesSystemController.getAddFilesSystem);
+router.post("/add",FilesSystemController.postAddFilesSystem);
+
 module.exports = router;

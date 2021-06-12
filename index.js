@@ -15,6 +15,7 @@ const ControllerLog = require("./models/ControllerLog");
 const ProductTypesRoute = require("./routes/ProductTypes");
 const flashingAPI_rout = require("./routes/flashingAPI");
 const Firmware_route = require("./routes/Firmware");
+const Filesystem_route = require("./routes/Filesystem");
 const FlashingRequest_route = require("./routes/FlashingRequest");
 const ControllerLog_route = require("./routes/ControllerLog");
 //const flash = require("./routes/flash");
@@ -128,6 +129,7 @@ sequelize
 app.use("/ProductTypes", ProductTypesRoute);
 app.use("/flashingAPI", flashingAPI_rout);
 app.use("/firmware", Firmware_route);
+app.use("/filesystem", Filesystem_route);
 app.use("/FlashingRequest", FlashingRequest_route);
 app.use("/ControllerLog", ControllerLog_route);
 
