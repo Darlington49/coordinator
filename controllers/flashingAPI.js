@@ -127,7 +127,7 @@ flashingAPI = (req, res) => {
           //firmware_link = "blink.bin";
           ftdi_link = "debug/ftdi_ft2322.cfg";
           mcu_module = "debug/esp-wroom-32.cfg";
-          final_cmd = `openocd -f  ${ftdi_link} -f ${mcu_module} -c "read_mac_esp32; program_esp32 ${firmware_link} 0x10000  verify exit;reset;shutdown;"`;
+          final_cmd = `openocd -f  ${ftdi_link} -f ${mcu_module} -c "read_mac_esp32; program_esp32 ${FirmwareLink} 0x10000  verify exit;reset;shutdown;"`;
           //final_cmd = `openocd -f  debug/ftdi_ft2322.cfg -f debug/esp-wroom-32.cfg -c "read_mac_esp32; program_esp32 blink.bin 0x10000 verify exit; reset;shutdown"`;
           // console.log(final_cmd);
           //   `openocd -f  debug/ftdi_ft2322.cfg -f debug/esp-wroom-32.cfg -c "program_esp32 build/blink.bin 0x10000  verify exit;reset;shutdown;"`,

@@ -65,7 +65,7 @@ getAddProduct = (req, res, next) => {
 const postAddProduct = (req, res, next) => {
   console.log("postAddProduct");
   console.log(req.body);
-  res.send("hi");
+
   const ProductName = req.body.ProductName;
   ProductTypes.create({
     ProductName: ProductName,
@@ -75,7 +75,7 @@ const postAddProduct = (req, res, next) => {
     .then((result) => {
       // console.log(result);
       console.log("Created Product");
-      //  res.redirect("/admin/products");
+      res.redirect("/ProductTypes");
     })
     .catch((err) => {
       console.log(err);
