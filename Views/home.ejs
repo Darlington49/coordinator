@@ -8,5 +8,17 @@
 </head>
 <body>
     <%- include('./includes/nav.ejs'); -%>
+
+
+    <form action="/file/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" />
+        <input type="submit" />
+      </form>
+
+    <!-- <form class="product-form" method="POST" action="/firmware/add" enctype="multipart/form-data">
+
+        <input type="file" name="avatar" multiple/>
+          <input type="submit" />
+      </form> -->
 </body>
 </html>

@@ -19,6 +19,7 @@ const Filesystem_route = require("./routes/Filesystem");
 const FlashingRequest_route = require("./routes/FlashingRequest");
 const ControllerLog_route = require("./routes/ControllerLog");
 //const flash = require("./routes/flash");
+const file_route = require("./routes/file");
 const errorController = require("./controllers/error");
 
 var app = express();
@@ -45,7 +46,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // GET method route
 app.get("/", function (req, res) {
   //res.send("GET request to the homepage");
-  ProductTypes.create({
+/*  ProductTypes.create({
     ProductName: "test2",
   });
 
@@ -59,8 +60,8 @@ app.get("/", function (req, res) {
     RepositoryURL : "link2"
 
   });
-
-  ProductTypes.findAll({
+*/
+ /* ProductTypes.findAll({
     where: {
       id: 1,
     },
@@ -72,6 +73,11 @@ app.get("/", function (req, res) {
     .catch((err) => {
       console.log(err);
     });
+    res.render("home", {
+      //items: items,
+      pageTitle: "Home",
+    });*/
+
     res.render("home", {
       //items: items,
       pageTitle: "Home",
@@ -132,6 +138,7 @@ app.use("/firmware", Firmware_route);
 app.use("/filesystem", Filesystem_route);
 app.use("/FlashingRequest", FlashingRequest_route);
 app.use("/ControllerLog", ControllerLog_route);
+app.use("/file", file_route);
 
 
 
