@@ -12,6 +12,10 @@ const File = sequelize.define("file", {
   data: {
     type: Sequelize.BLOB("long"),
   },
+  Version: Sequelize.STRING,
+  RepositoryURL: Sequelize.STRING,
+  Actor: Sequelize.STRING,
+
 });
 
 module.exports = File;
