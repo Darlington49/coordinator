@@ -7,7 +7,7 @@ var await = require("await");
 // const File = db.files;
 
 exports.uploadFile = (req, res) => {
-  print.console.log(req.body)
+  console.log(req.body)
   File.create({
     type: req.file.mimetype,
     name: req.file.originalname,
