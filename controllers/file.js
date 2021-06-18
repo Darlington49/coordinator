@@ -2,7 +2,7 @@ const File = require("../models/file");
 
 var stream = require("stream");
 var await = require("await");
-
+const fs = require('fs')
 // const db = require('../config/db.config.js');
 // const File = db.files;
 
@@ -23,7 +23,7 @@ exports.uploadFile = (req, res) => {
         status: "ok",
         filename: req.file.originalname,
         message: "Upload Successfully!",
-        downloadUrl: "http://localhost:8080/api/file/" + file.dataValues.id,
+        downloadUrl: "http://localhost:3000/file/" + file.dataValues.id,
       };
 
       res.json(result);
@@ -66,7 +66,7 @@ exports.uploadMultipleFiles = async (req, res) => {
         filename: file.originalname,
         message: "Upload Successfully!",
         downloadUrl:
-          "http://localhost:8080/api/file/" + uploadfile.dataValues.id,
+          "http://localhost:8080/file/" + uploadfile.dataValues.id,
       };
 
       messages.push(result);
@@ -86,7 +86,7 @@ exports.listAllFiles = (req, res) => {
       for (let i = 0; i < files.length; i++) {
         fileInfo.push({
           filename: files[i].name,
-          url: "http://localhost:8080/api/file/" + files[i].dataValues.id,
+          url: "http://localhost:3000/api/file/" + files[i].dataValues.id,
         });
       }
 
@@ -105,15 +105,19 @@ exports.downloadFile = (req, res) => {
       var readStream = new stream.PassThrough();
       readStream.end(fileContents);
 
-      // res.set('Content-disposition', 'attachment; filename=' + file.name);
-      // 	res.set('Content-Type', file.type);
-      fs.writeFileSync("upload//" + file.name, fileContents);
-      res.send("upload/" + file.name + " " + file.type);
-      // readStream.pipe(res);
+       res.set('Content-disposition', 'attachment; filename=' + file.name);
+       	res.set('Content-Type', file.type);
+      let result = fs.writeFileSync("upload//" + file.name, fileContents);
+      console.log(result)
+     // res.send("upload/" + file.name + " " + file.type);
       readStream.pipe(res);
+
     })
     .catch((err) => {
       console.log(err);
       res.json({ msg: "Error", detail: err });
     });
 };
+
+
+//  curl -F 'file=@blink.bin' localhost:3000/file/upload
