@@ -33,7 +33,14 @@
         <label for="RepositoryURL">RepositoryURL</label>
         <input type="text" name="RepositoryURL" />
       </div>
-
+      <div class="form-control">
+        <label for="filesystem">Choose a remote filem:</label>
+        <select id="FileID" name="fileId">
+            <% files.forEach(function(item) { %>
+                <option value=<%= item.id %> > <%= item.dataValues.RepositoryURL %> </option>
+            <% }); %>
+        </select>
+    </div>
       <input type="submit" />
     </form>
   </body>

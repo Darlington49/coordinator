@@ -1,4 +1,5 @@
 const Firmware = require("../models/Firmware");
+const File = require("../models/file");
 
 const firmwareGet = (req, res) => {
   
@@ -16,19 +17,30 @@ const firmwareGet = (req, res) => {
 };
 
 getAddfirmware = (req, res, next) => {
-  res.render("firmware/Add", {
-    pageTitle: "Add Product",
+
+  File.findAll()
+  .then((files) => {
+    console.log(files);
+    res.render("firmware/Add", {
+      pageTitle: "Add Product",
+      files:files
+    });
+  })
+  .catch((err) => {
+    console.log(err);
   });
 };
 
 const postAddfirmware = (req, res, next) => {
-  console.log("=====>", req.files);
+  // console.log("=====>", req.files);
+  console.log("=====>", req.body);
   Firmware.create({
     Compiled_Date: req.body.Compiled_Date,
     Version: req.body.Version,
     RepositoryURL: req.body.RepositoryURL,
     Name: req.body.RepositoryURL,
     Link: req.files[0].path,
+    fileId: req.body.fileId,
   })
     .then((result) => {
       console.log("Created firmware");

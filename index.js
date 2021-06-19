@@ -10,6 +10,7 @@ const Firmware = require("./models/Firmware");
 const Filesystem = require("./models/Filesystem");
 const FlashingRequest = require("./models/FlashingRequest");
 const ControllerLog = require("./models/ControllerLog");
+const file_model = require("./models/file");
 
 //IMPORT ROUTERS
 const ProductTypesRoute = require("./routes/ProductTypes");
@@ -31,8 +32,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set("views", "./Views");
 app.set("view engine", "ejs");
 
+Firmware.belongsTo(file_model);
+Filesystem.belongsTo(file_model);
+
+file_model.hasMany(Firmware);
+file_model.hasMany(Filesystem);
+
 ProductTypes.belongsTo(Firmware);
 ProductTypes.belongsTo(Filesystem);
+//ProductTypes.belongsTo(file_model);
 
 FlashingRequest.belongsTo(ProductTypes);
 ProductTypes.hasMany(FlashingRequest);
@@ -121,8 +129,8 @@ app.post("/submit-form", (req, res) => {
 });
 
 sequelize
-  // .sync({ force: true })
-  .sync() //{force : true}
+   .sync({ force: true })
+  //.sync() //{force : true}
   .then((result) => {
     app.listen(3000);
     // console.log("srv");

@@ -1,4 +1,5 @@
 const FilesSystem = require("../models/Filesystem");
+const File = require("../models/File");
 
 const FilesSystemGet = (req, res) => {
   FilesSystem.findAll()
@@ -15,8 +16,18 @@ const FilesSystemGet = (req, res) => {
 };
 
 getAddFilesSystem = (req, res, next) => {
-  res.render("filesystem/Add", {
-    pageTitle: "Add Product",
+  
+  
+  File.findAll()
+  .then((files) => {
+    console.log(files);
+    res.render("filesystem/Add", {
+      pageTitle: "Add Product",
+      files:files
+    });
+  })
+  .catch((err) => {
+    console.log(err);
   });
 };
 
@@ -28,6 +39,7 @@ const postAddFilesSystem = (req, res, next) => {
     RepositoryURL: req.body.RepositoryURL,
     Name: req.body.RepositoryURL,
     Link: req.files[0].path,
+    fileId: req.body.fileId,
   })
     .then((result) => {
       console.log("Created filesystem");
