@@ -8,6 +8,10 @@ const { spawn, exec } = require("child_process");
 
 const ProductTypes = require("../models/ProductTypes");
 const Firmware = require("../models/Firmware");
+const File = require("../models/file");
+
+var await = require("await");
+const fs = require("fs");
 
 let status = false;
 let rootcause = null;
@@ -122,89 +126,112 @@ flashingAPI = (req, res) => {
         },
       })
         .then((firmware) => {
-            console.log(firmware[0].dataValues);
-           FirmwareLink = firmware[0].dataValues.Link;
-          //firmware_link = "blink.bin";
-          ftdi_link = "debug/ftdi_ft2322.cfg";
-          mcu_module = "debug/esp-wroom-32.cfg";
-          final_cmd = `openocd -f  ${ftdi_link} -f ${mcu_module} -c "read_mac_esp32; program_esp32 ${FirmwareLink} 0x10000  verify exit;reset;shutdown;"`;
-          //final_cmd = `openocd -f  debug/ftdi_ft2322.cfg -f debug/esp-wroom-32.cfg -c "read_mac_esp32; program_esp32 blink.bin 0x10000 verify exit; reset;shutdown"`;
-          // console.log(final_cmd);
-          //   `openocd -f  debug/ftdi_ft2322.cfg -f debug/esp-wroom-32.cfg -c "program_esp32 build/blink.bin 0x10000  verify exit;reset;shutdown;"`,
-          exec(final_cmd, (error, stdout, stderr) => {
-            if (error) {
-              // console.log(`error: ${error.message}`);
-              //status = "failed";
-              log += error.message;
-              //log = stderr;
-              console.log(`_____________log:_______________\n ${log}`);
-              n = log.includes("** Programming Finished **");
-              console.log(">>>>>>>>>>>>>>>>>>>>>>>" + n + "<<<<<<<<<<<<<<<<");
-              n ? (status = "flashed") : (status = "failed");
+          console.log(firmware[0].dataValues);
+          FirmwareLink = firmware[0].dataValues.Link;
+          fileId = firmware[0].dataValues.fileId;
 
-              if (status === "failed") {
-                if (log.includes("Error: unable to open ftdi device"))
-                  rootcause = "Debuger";
-                if (
-                  log.includes(
-                    "Error: JTAG scan chain interrogation failed: all zeroes"
-                  )
-                )
-                  rootcause = "ESP";
-              } else rootcause = "";
-            }
-            if (stderr) {
-              // console.log(`stderr: ${stderr}`);
-              log += stderr;
-              //  console.log(`_____________log:_______________\n ${log}`);
-              n = log.includes("** Programming Finished **");
+          File.findAll({
+            where: {
+              id: fileId,
+            },
+          })
+            .then((file) => {
+              console.log(file[0].dataValues);
+              //donwnload file flash and delete it
+              var fileContents = Buffer.from(file[0].dataValues.data, "base64");
+              FirmwareLink = "uploads/" + file[0].dataValues.name;
+              let result = fs.writeFileSync(FirmwareLink, fileContents);
+              console.log(result);
 
-              n ? (status = "flashed") : (status = "failed");
-              console.log(">>>>>>>>>>>>>>>>>>>>>>>" + n + "<<<<<<<<<<<<<<<<");
-              console.log(
-                ">>>>>>>>>>>>>>>>>>>>>>>" + status + "<<<<<<<<<<<<<<<<"
-              );
-              if (status === "failed") {
-                if (log.includes("Error: unable to open ftdi device"))
-                  rootcause = "Debuger";
-                if (
-                  log.includes(
-                    "Error: JTAG scan chain interrogation failed: all zeroes"
-                  )
-                )
-                  rootcause = "ESP";
-              } else if (status === "flashed") {
-                rootcause = "";
-              }
-            }
-            if (stdout) {
-              // console.log(`log stdout :\n ${stdout}`);
-              log += stdout;
-              const words = stdout.split(" ");
-              mac = words[1];
-              //  console.log("mac adress : ", mac);
-            }
-            product[0]
-              .createFlashingRequest({
-                ProductMacAdress: mac,
-              })
-              .then((FlashReq) => {
-                //  console.log("=======FlashReq============>", FlashReq);
-                FlashingRequestRecordId = FlashReq.dataValues.id;
-                FlashReq.createControllerLog({
-                  status,
-                  rootcause,
-                  log,
-                  Time: sequelize.literal("CURRENT_TIMESTAMP"),
-                });
+              //firmware_link = "blink.bin";
+              ftdi_link = "debug/ftdi_ft2322.cfg";
+              mcu_module = "debug/esp-wroom-32.cfg";
+              final_cmd = `openocd -f  ${ftdi_link} -f ${mcu_module} -c "read_mac_esp32; program_esp32 ${FirmwareLink} 0x10000  verify exit;reset;shutdown;"`;
+              //final_cmd = `openocd -f  debug/ftdi_ft2322.cfg -f debug/esp-wroom-32.cfg -c "read_mac_esp32; program_esp32 blink.bin 0x10000 verify exit; reset;shutdown"`;
+              // console.log(final_cmd);
+              //   `openocd -f  debug/ftdi_ft2322.cfg -f debug/esp-wroom-32.cfg -c "program_esp32 build/blink.bin 0x10000  verify exit;reset;shutdown;"`,
+              exec(final_cmd, (error, stdout, stderr) => {
+                if (error) {
+                  // console.log(`error: ${error.message}`);
+                  //status = "failed";
+                  log += error.message;
+                  //log = stderr;
+                  console.log(`_____________log:_______________\n ${log}`);
+                  n = log.includes("** Programming Finished **");
+                  console.log(
+                    ">>>>>>>>>>>>>>>>>>>>>>>" + n + "<<<<<<<<<<<<<<<<"
+                  );
+                  n ? (status = "flashed") : (status = "failed");
+
+                  if (status === "failed") {
+                    if (log.includes("Error: unable to open ftdi device"))
+                      rootcause = "Debuger";
+                    if (
+                      log.includes(
+                        "Error: JTAG scan chain interrogation failed: all zeroes"
+                      )
+                    )
+                      rootcause = "ESP";
+                  } else rootcause = "";
+                }
+                if (stderr) {
+                  // console.log(`stderr: ${stderr}`);
+                  log += stderr;
+                  //  console.log(`_____________log:_______________\n ${log}`);
+                  n = log.includes("** Programming Finished **");
+
+                  n ? (status = "flashed") : (status = "failed");
+                  console.log(
+                    ">>>>>>>>>>>>>>>>>>>>>>>" + n + "<<<<<<<<<<<<<<<<"
+                  );
+                  console.log(
+                    ">>>>>>>>>>>>>>>>>>>>>>>" + status + "<<<<<<<<<<<<<<<<"
+                  );
+                  if (status === "failed") {
+                    if (log.includes("Error: unable to open ftdi device"))
+                      rootcause = "Debuger";
+                    if (
+                      log.includes(
+                        "Error: JTAG scan chain interrogation failed: all zeroes"
+                      )
+                    )
+                      rootcause = "ESP";
+                  } else if (status === "flashed") {
+                    rootcause = "";
+                  }
+                }
+                if (stdout) {
+                  // console.log(`log stdout :\n ${stdout}`);
+                  log += stdout;
+                  const words = stdout.split(" ");
+                  mac = words[1];
+                  //  console.log("mac adress : ", mac);
+                }
+                product[0]
+                  .createFlashingRequest({
+                    ProductMacAdress: mac,
+                  })
+                  .then((FlashReq) => {
+                    //  console.log("=======FlashReq============>", FlashReq);
+                    FlashingRequestRecordId = FlashReq.dataValues.id;
+                    FlashReq.createControllerLog({
+                      status,
+                      rootcause,
+                      log,
+                      Time: sequelize.literal("CURRENT_TIMESTAMP"),
+                    });
+                  });
+                console.log("mac:\t", mac);
+                console.log("status:\t", status);
+                console.log("rootcause:\t", rootcause);
+                res.send(status);
+                // console.log(`log:\n ${stdout}`);
+                //log  = stdout;
               });
-            console.log("mac:\t", mac);
-            console.log("status:\t", status);
-            console.log("rootcause:\t", rootcause);
-            res.send(status);
-            // console.log(`log:\n ${stdout}`);
-            //log  = stdout;
-          });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((err) => console.log(err));
       //res.send(product.FirmwareId);
