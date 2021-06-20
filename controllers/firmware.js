@@ -18,17 +18,18 @@ const firmwareGet = (req, res) => {
 
 getAddfirmware = (req, res, next) => {
 
-  File.findAll()
-  .then((files) => {
-    console.log(files);
-    res.render("firmware/Add", {
+  File.findAll({ attributes: ["id", "name","Actor","RepositoryURL","Version"] })
+    .then((files) => {
+      console.log(files);
+          res.render("firmware/Add", {
       pageTitle: "Add Product",
       files:files
     });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({ msg: "Error", detail: err });
+    });
 };
 
 const postAddfirmware = (req, res, next) => {

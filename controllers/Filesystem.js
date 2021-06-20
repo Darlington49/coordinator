@@ -1,5 +1,5 @@
 const FilesSystem = require("../models/Filesystem");
-const File = require("../models/File");
+const File = require("../models/file");
 
 const FilesSystemGet = (req, res) => {
   FilesSystem.findAll()
@@ -17,19 +17,19 @@ const FilesSystemGet = (req, res) => {
 
 getAddFilesSystem = (req, res, next) => {
   
-  
-  File.findAll()
-  .then((files) => {
-    console.log(files);
-    res.render("filesystem/Add", {
+    File.findAll({ attributes: ["id", "name","Actor","RepositoryURL","Version"] })
+    .then((files) => {
+      console.log(files);
+    res.render("Filesystem/Add", {
       pageTitle: "Add Product",
       files:files
     });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-};
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({ msg: "Error", detail: err });
+    });
+  };
 
 const postAddFilesSystem = (req, res, next) => {
  // console.log("=====>", req.files);
