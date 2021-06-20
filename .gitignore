@@ -102,3 +102,10 @@ dist
 
 # TernJS port file
 .tern-port
+
+
+# exclude everything
+uploads/*
+
+# exception to the rule
+!uploads/UPLOADS_HERE.js
